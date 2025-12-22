@@ -4,7 +4,7 @@
 // ===========================================
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://cp_event:CpEvent2026@cpeventcluster.jmjmbmc.mongodb.net/cp-events?retryWrites=true&w=majority&appName=cpEventCluster';
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
 async function setupDatabase() {
   try {
