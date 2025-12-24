@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond, Space_Mono } from "next/font/google";
 import { Geist, Geist_Mono } from "next/font/google"; 
 import "./globals.css";
+import Providers from "./providers";
+import { Navbar } from "@/components/navbar";
 import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({
@@ -44,16 +46,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className="dark">
       <body
         className={`${inter.variable} ${cormorant.variable} ${spaceMono.variable} antialiased`}
       >
-        <CustomCursor />
-        {children}
+        <Providers>
+          <Navbar />
+          <CustomCursor />
+          {children}
+        </Providers>
       </body>
     </html>
   );
