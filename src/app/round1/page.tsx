@@ -23,6 +23,9 @@ export default function Round1Page() {
   const [loading, setLoading] = useState(true);
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
   const [error, setError] = useState('');
+  
+  // Placeholder team name
+  const teamName = "Team CodeMasters";
 
   useEffect(() => {
     const loadGameData = async () => {
@@ -90,43 +93,27 @@ export default function Round1Page() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#050505]">
-        <div className="text-center max-w-md px-6">
-          <div className="w-16 h-16 mx-auto mb-6 border-2 border-red-500/50 flex items-center justify-center">
-            <span className="text-red-500 text-3xl">!</span>
-          </div>
-          <p className="text-red-400 text-lg mb-4 font-display">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="font-ui text-xs uppercase tracking-[0.2em] px-6 py-3 border border-white/20 text-white/60 hover:border-white hover:text-white transition-colors"
-          >
-            Retry Connection
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   const bingoIndices = getBingoIndices();
   const solvedSet = new Set(progress?.solvedIndices || []);
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#F2F2F2]">
-      {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        
         {/* Header Section */}
-        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6 sm:mb-8 border-b border-white/10 pb-4 sm:pb-6">
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-              <span className="font-ui text-[10px] uppercase tracking-[0.3em] text-white/40 bg-white/5 px-3 py-1.5 border border-white/10">
-                BINGO CONTEST
+        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6 sm:mb-8 border-b border-white/10 pb-4 sm:pb-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.6)]" />
+              <span className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/60 whitespace-nowrap">
+                {teamName}
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tighter uppercase mb-2 chrome-text">
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-sans font-black tracking-tighter uppercase mb-2 chrome-text">
               {game?.name || 'Round 1'}
             </h1>
+
             <div className="flex flex-wrap items-center gap-4 font-ui text-[9px] sm:text-[10px] tracking-[0.25em] sm:tracking-[0.3em] text-white/40 uppercase">
               <span className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 bg-green-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
@@ -139,55 +126,69 @@ export default function Round1Page() {
             </div>
           </div>
 
-          <p className="font-ui text-[10px] sm:text-xs text-white/30 max-w-[280px] leading-relaxed uppercase tracking-wider">
-            Solve problems to mark cells. Complete rows, columns, or diagonals for bingo bonus points.
-          </p>
+          <div className="flex flex-col items-start lg:items-end gap-4">
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => window.location.href = '/'}
+                className="px-4 py-2 border border-white/10 bg-white/5 hover:bg-white/10 text-white font-ui text-[10px] uppercase tracking-widest transition-all rounded-lg"
+              >
+                Dashboard
+              </button>
+              <button 
+                onClick={() => window.location.href = '/login'}
+                className="px-4 py-2 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 font-ui text-[10px] uppercase tracking-widest transition-all rounded-lg"
+              >
+                Logout
+              </button>
+            </div>
+            
+            <p className="font-ui text-[10px] sm:text-xs text-white/30 max-w-[280px] leading-relaxed uppercase tracking-wider text-left lg:text-right">
+              Solve problems to mark cells. Complete rows, columns, or diagonals for bingo bonus points.
+            </p>
+          </div>
         </header>
 
         {/* Stats Dashboard */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-0 mb-6 sm:mb-8 border border-white/10">
-          {/* Score */}
-          <div className="p-4 sm:p-5 border-b sm:border-b-0 sm:border-r border-white/10 group hover:bg-white/10 transition-colors duration-300">
-            <p className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-2 text-white/40 group-hover:text-white transition-colors">
-              Total Score
-            </p>
-            <div className="flex items-end gap-2">
-              <span className="text-5xl sm:text-6xl font-nums font-extrabold group-hover:text-white transition-colors">
-                {progress?.currentScore || 0}
-              </span>
-              <span className="font-ui text-[10px] sm:text-xs mb-2 text-white/20 group-hover:text-white/60 transition-colors">
-                PTS
-              </span>
+        <section className="flex justify-center mb-12 sm:mb-16">
+          <div className="flex w-full max-w-md sm:max-w-3xl bg-[#0b0b0b] rounded-3xl border border-white/10 overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+            <div className="flex-1 min-w-0 py-4 sm:py-6 flex flex-col group hover:bg-white/5 transition-all pl-6 sm:pl-10">
+              <p className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-white/40 mb-1 text-left group-hover:text-white/60 transition-colors truncate">
+                Total Score
+              </p>
+              <div className="flex items-end justify-start gap-1.5">
+                <span className="text-3xl sm:text-5xl font-sans font-black tracking-tighter tabular-nums text-white">
+                  {progress?.currentScore || 0}
+                </span>
+                <span className="font-ui text-[9px] sm:text-[10px] text-white/20 mb-1 uppercase">pts</span>
+              </div>
             </div>
-          </div>
 
-          {/* Solved Count */}
-          <div className="p-4 sm:p-5 border-b sm:border-b-0 sm:border-r border-white/10 group hover:bg-white/10 transition-colors duration-300">
-            <p className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-2 text-white/40 group-hover:text-white transition-colors">
-              Problems Solved
-            </p>
-            <div className="flex items-end gap-2">
-              <span className="text-5xl sm:text-6xl font-nums font-extrabold group-hover:text-white transition-colors">
-                {progress?.solvedIndices?.length || 0}
-              </span>
-              <span className="font-ui text-[10px] sm:text-xs mb-2 text-white/20 group-hover:text-white/60 transition-colors">
-                / 09
-              </span>
+            <div className="w-px bg-white/10 my-4 sm:my-6" />
+
+            <div className="flex-1 min-w-0 py-4 sm:py-6 flex flex-col group hover:bg-white/5 transition-all pl-6 sm:pl-10">
+              <p className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-white/40 mb-1 text-left group-hover:text-white/60 transition-colors truncate">
+                Solved
+              </p>
+              <div className="flex items-end justify-start gap-1.5">
+                <span className="text-3xl sm:text-5xl font-sans font-black tracking-tighter tabular-nums text-white">
+                  {progress?.solvedIndices?.length || 0}
+                </span>
+                <span className="font-ui text-[9px] sm:text-[10px] text-white/20 mb-1 uppercase">/ 09</span>
+              </div>
             </div>
-          </div>
 
-          {/* Bingo Lines */}
-          <div className="p-4 sm:p-5 group hover:bg-white/10 transition-colors duration-300">
-            <p className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-2 text-white/40 group-hover:text-white transition-colors">
-              Bingo Lines
-            </p>
-            <div className="flex items-end gap-2">
-              <span className="text-5xl sm:text-6xl font-nums font-extrabold group-hover:text-white transition-colors">
-                {progress?.bingoLines?.length || 0}
-              </span>
-              <span className="font-ui text-[10px] sm:text-xs mb-2 text-white/20 group-hover:text-white/60 transition-colors">
-                BINGOS
-              </span>
+            <div className="w-px bg-white/10 my-4 sm:my-6" />
+
+            <div className="flex-1 min-w-0 py-4 sm:py-6 flex flex-col group hover:bg-white/5 transition-all pl-6 sm:pl-10">
+              <p className="font-ui text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-white/40 mb-1 text-left group-hover:text-white/60 transition-colors truncate">
+                Bingo Lines
+              </p>
+              <div className="flex items-end justify-start gap-1.5">
+                <span className="text-3xl sm:text-5xl font-sans font-black tracking-tighter tabular-nums text-white">
+                  {progress?.bingoLines?.length || 0}
+                </span>
+                <span className="font-ui text-[9px] sm:text-[10px] text-white/20 mb-1 uppercase">bin</span>
+              </div>
             </div>
           </div>
         </section>
@@ -211,44 +212,25 @@ export default function Round1Page() {
         <div className="flex flex-col items-center gap-8 sm:gap-12">
           <SyncButton onSync={handleSync} lastSyncTime={lastSyncTime} />
 
-          {/* Rules & Info */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 w-full pt-8 sm:pt-12 border-t border-white/10">
-            {/* Scoring Rules */}
             <div className="space-y-4">
-              <p className="font-ui text-[10px] uppercase tracking-[0.3em] font-bold text-white/80">
-                Scoring Rules
-              </p>
+              <p className="font-ui text-[10px] uppercase tracking-[0.3em] font-bold text-white/80">Scoring Rules</p>
               <p className="text-white/40 text-[10px] sm:text-xs leading-relaxed font-ui uppercase">
                 +10 points per solved problem. +30 bonus for each bingo line (row, column, or diagonal).
               </p>
             </div>
 
-            {/* Lines Available */}
             <div className="space-y-4 font-ui">
-              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/80">
-                Possible Lines
-              </p>
+              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/80">Possible Lines</p>
               <ul className="text-white/40 text-[10px] space-y-2 uppercase tracking-widest">
-                <li className="flex justify-between">
-                  <span>Rows</span>
-                  <span className="text-white/60">[ 03 ]</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Columns</span>
-                  <span className="text-white/60">[ 03 ]</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Diagonals</span>
-                  <span className="text-white/60">[ 02 ]</span>
-                </li>
+                <li className="flex justify-between"><span>Rows</span><span className="text-white/60">[ 03 ]</span></li>
+                <li className="flex justify-between"><span>Columns</span><span className="text-white/60">[ 03 ]</span></li>
+                <li className="flex justify-between"><span>Diagonals</span><span className="text-white/60">[ 02 ]</span></li>
               </ul>
             </div>
 
-            {/* Status */}
             <div className="space-y-4 font-ui">
-              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/80">
-                System Status
-              </p>
+              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/80">System Status</p>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-white/40 text-[10px] uppercase">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse" />
@@ -264,8 +246,8 @@ export default function Round1Page() {
           </div>
         </div>
 
-        {/* Legend */}
-        <div className="mt-12 sm:mt-16 pt-8 border-t border-white/5">
+        {/* Legend - Tightened Spacing */}
+        <div className="mt-8 sm:mt-10 pt-8 border-t border-white/5">
           <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
             <div className="flex items-center gap-3">
               <div className="w-4 h-4 bg-black/40 border border-white/10" />
@@ -283,18 +265,13 @@ export default function Round1Page() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 mt-16 sm:mt-24 py-8">
+      {/* Footer - Tightened Spacing */}
+      <footer className="border-t border-white/5 mt-8 sm:mt-6 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-          <p className="font-ui text-[10px] uppercase tracking-[0.2em] text-white/20">
-            Codeforces Bingo Contest
-          </p>
-          <p className="font-ui text-[10px] uppercase tracking-[0.2em] text-white/20">
-            Round 1 — Active
-          </p>
+          <p className="font-ui text-[10px] uppercase tracking-[0.2em] text-white/20">Codeforces Bingo Contest</p>
+          <p className="font-ui text-[10px] uppercase tracking-[0.2em] text-white/20">Round 1 — Active</p>
         </div>
       </footer>
     </div>
   );
 }
-  
