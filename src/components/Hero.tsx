@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function Hero() {
   const [text, setText] = useState('');
@@ -51,13 +52,15 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="font-ui px-8 py-4 bg-primary text-black font-bold text-lg border border-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all"
-            >
-              LOGIN_NOW()
-            </motion.button>
+            <Link href="/login">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="font-ui px-8 py-4 bg-primary text-black font-bold text-lg border border-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all inline-block cursor-pointer"
+              >
+                LOGIN_NOW()
+              </motion.div>
+            </Link>
           </div>
         </motion.div>
       </div>
