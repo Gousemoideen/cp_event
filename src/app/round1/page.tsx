@@ -135,7 +135,7 @@ export default function Round1Page() {
                 Dashboard
               </button>
               <button 
-                onClick={() => window.location.href = '/login'}
+                onClick={() => window.location.href = '/'}
                 className="px-4 py-2 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-red-400 font-ui text-[10px] uppercase tracking-widest transition-all rounded-lg"
               >
                 Logout
