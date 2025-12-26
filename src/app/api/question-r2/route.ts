@@ -20,11 +20,18 @@ function shuffleArray(array: any[]) {
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session || !session.user?.teamId) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    if (!session.user?.hasRound2Access) {
+      return NextResponse.json(
+        { success: false, error: 'Access denied to Round 2' },
+        { status: 403 }
       );
     }
 
