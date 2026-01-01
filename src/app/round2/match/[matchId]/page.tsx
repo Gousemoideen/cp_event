@@ -125,26 +125,26 @@ export default function Round2MatchPage() {
 
   const my = mySide === 'A' ? data.match.sideA : data.match.sideB;
   const opp = mySide === 'A' ? data.match.sideB : data.match.sideA;
-const BASE_SCORE = 50;
-const MAX_SCORE = 75;
+  const BASE_SCORE = 50;
+  const MAX_SCORE = 75;
 
-// Clamp scores
-const clampedMy = Math.min(my.score, MAX_SCORE);
-const clampedOpp = Math.min(opp.score, MAX_SCORE);
+  // Clamp scores
+  const clampedMy = Math.min(my.score, MAX_SCORE);
+  const clampedOpp = Math.min(opp.score, MAX_SCORE);
 
-// Calculate percentage position (0% to 100%)
-let pullPercentage = 50; // Start at center
+  // Calculate percentage position (0% to 100%)
+  let pullPercentage = 50; // Start at center
 
-if (clampedMy >= MAX_SCORE) {
-  pullPercentage = 0; // Move to left edge (your side wins)
-} else if (clampedOpp >= MAX_SCORE) {
-  pullPercentage = 100; // Move to right edge (opponent wins)
-} else {
-  const diff = clampedMy - clampedOpp;
-  const MAX_DIFF = MAX_SCORE - BASE_SCORE; // 25
-  const normalized = diff / MAX_DIFF;
-  pullPercentage = 50 - (normalized * 50); // Scale from 0% to 100% (inverted)
-}
+  if (clampedMy >= MAX_SCORE) {
+    pullPercentage = 0; // Move to left edge (your side wins)
+  } else if (clampedOpp >= MAX_SCORE) {
+    pullPercentage = 100; // Move to right edge (opponent wins)
+  } else {
+    const diff = clampedMy - clampedOpp;
+    const MAX_DIFF = MAX_SCORE - BASE_SCORE; // 25
+    const normalized = diff / MAX_DIFF;
+    pullPercentage = 50 - (normalized * 50); // Scale from 0% to 100% (inverted)
+  }
 
 
   /* ---------------- UI ---------------- */
@@ -188,77 +188,77 @@ if (clampedMy >= MAX_SCORE) {
 
         {/* ---------- SCORE & ROPE ---------- */}
         <section className="space-y-4">
-  <div className="flex justify-between text-sm uppercase tracking-widest text-white/60">
-    <span>Your Side</span>
-    <span>Opponent</span>
-  </div>
+          <div className="flex justify-between text-sm uppercase tracking-widest text-white/60">
+            <span>Your Side</span>
+            <span>Opponent</span>
+          </div>
 
-  <div className="flex justify-between text-4xl font-black">
-    <span className={clampedMy >= MAX_SCORE ? "text-green-400" : ""}>
-      {my.score}
-    </span>
-    <span className={clampedOpp >= MAX_SCORE ? "text-green-400" : ""}>
-      {opp.score}
-    </span>
-  </div>
+          <div className="flex justify-between text-4xl font-black">
+            <span className={clampedMy >= MAX_SCORE ? "text-green-400" : ""}>
+              {my.score}
+            </span>
+            <span className={clampedOpp >= MAX_SCORE ? "text-purple-400/80" : ""}>
+              {opp.score}
+            </span>
+          </div>
 
-  <div className="relative h-6 rounded-full overflow-hidden bg-white/5 border border-white/10">
-    <div className="absolute inset-0 flex">
-      <div className="w-1/4 bg-white/5" />
-      <div className="w-1/2 bg-white/10" />
-      <div className="w-1/4 bg-white/5" />
-    </div>
+          <div className="relative h-6 rounded-full overflow-hidden bg-white/5 border border-white/10">
+            <div className="absolute inset-0 flex">
+              <div className="w-1/4 bg-white/5" />
+              <div className="w-1/2 bg-white/10" />
+              <div className="w-1/4 bg-white/5" />
+            </div>
 
-    <div className="absolute left-1/2 top-0 h-full w-[2px] bg-white/30" />
+            <div className="absolute left-1/2 top-0 h-full w-[2px] bg-white/30" />
 
-<motion.div
-  animate={{ 
-    left: `${pullPercentage}%` 
-  }}
-  transition={{ 
-    type: 'spring', 
-    stiffness: clampedMy >= MAX_SCORE || clampedOpp >= MAX_SCORE ? 80 : 140, 
-    damping: clampedMy >= MAX_SCORE || clampedOpp >= MAX_SCORE ? 12 : 18 
-  }}
-  className={`absolute top-0 -translate-x-1/2
+            <motion.div
+              animate={{
+                left: `${pullPercentage}%`
+              }}
+              transition={{
+                type: 'spring',
+                stiffness: clampedMy >= MAX_SCORE || clampedOpp >= MAX_SCORE ? 80 : 140,
+                damping: clampedMy >= MAX_SCORE || clampedOpp >= MAX_SCORE ? 12 : 18
+              }}
+              className={`absolute top-0 -translate-x-1/2
      w-36 h-full bg-white
      shadow-[0_0_30px_rgba(255,255,255,0.8)]
      ring-1 ring-white/40 z-10
-     ${(clampedMy >= MAX_SCORE || clampedOpp >= MAX_SCORE) ? 'bg-green-400 shadow-[0_0_40px_rgba(34,197,94,0.9)]' : ''}`}
-/>
+     ${(clampedMy >= MAX_SCORE || clampedOpp >= MAX_SCORE) ? 'text-purple-300/80 shadow-[0_0_40px_rgba(34,197,94,0.9)]' : ''}`}
+            />
 
-    <div className="absolute left-2 top-0 h-full w-[2px] bg-white/40" />
-    <div className="absolute right-2 top-0 h-full w-[2px] bg-white/40" />
-  </div>
+            <div className="absolute left-2 top-0 h-full w-[2px] bg-white/40" />
+            <div className="absolute right-2 top-0 h-full w-[2px] bg-white/40" />
+          </div>
 
-  {/* POINT SYSTEM */}
-  <div className="flex justify-center gap-6 text-[10px] uppercase tracking-widest text-white/40">
-    <span>✔ Accepted: +10</span>
-    <span>✖ Wrong: −5</span>
-    <span>🏁 Win at 75</span>
-  </div>
+          {/* POINT SYSTEM */}
+          <div className="flex justify-center gap-6 text-[10px] uppercase tracking-widest text-white/40">
+            <span>✔ Accepted: +10</span>
+            <span>✖ Wrong: −5</span>
+            <span>🏁 Win at 75</span>
+          </div>
 
-  <div className="mt-3 text-center">
-    <span className="inline-block px-4 py-1 rounded-full border border-white/10 bg-white/5
+          <div className="mt-3 text-center">
+            <span className="inline-block px-4 py-1 rounded-full border border-white/10 bg-white/5
       text-xs uppercase tracking-widest text-white/70">
-      You are playing as&nbsp;
-      <span className="font-bold text-white">
-        Side {mySide}
-      </span>
-    </span>
-  </div>
+              You are playing as&nbsp;
+              <span className="font-bold text-white">
+                Side {mySide}
+              </span>
+            </span>
+          </div>
 
-  {data.match.status === 'completed' && (
-    <motion.p 
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: 'spring', stiffness: 200 }}
-      className="text-center text-green-400 uppercase tracking-widest text-sm font-bold"
-    >
-      🎉 Match Completed — Winner: Side {data.match.winningSide} 🎉
-    </motion.p>
-  )}
-</section>
+          {data.match.status === 'completed' && (
+            <motion.p
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 200 }}
+              className="text-center text-purple-300/80 uppercase tracking-widest text-sm font-bold"
+            >
+              🎉 Match Completed — Winner: Side {data.match.winningSide} 🎉
+            </motion.p>
+          )}
+        </section>
 
 
 
