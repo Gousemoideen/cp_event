@@ -8,6 +8,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     }),
   ],
 
@@ -18,11 +25,15 @@ export const authOptions: NextAuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 
+  // Use NEXTAUTH_URL from environment variables
+  ...(process.env.NEXTAUTH_URL && { 
+    url: process.env.NEXTAUTH_URL 
+  }),
+
   pages: {
     signIn: '/login',
+    error: '/login',
   },
-
-  // Explicit cookie security configuration
   cookies: {
     sessionToken: {
       name: process.env.NODE_ENV === 'production'
@@ -38,7 +49,12 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    //Allow login only if email exists in Team DB
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl + "/round1";
+    },
+
     async signIn({ user }) {
       try {
         await connectDB();
@@ -51,9 +67,11 @@ export const authOptions: NextAuthOptions = {
         const teamExists = await Team.findOne({ email: user.email });
 
         if (!teamExists) {
+          console.log(`Sign-in denied: Email ${user.email} not found in team database.`);
           return false;
         }
 
+        console.log(`Sign-in successful: ${user.email}`);
         return true;
       } catch (error) {
         console.error("Sign-in error:", error);
