@@ -1,5 +1,5 @@
 import HeroSection from '@/components/Hero';
-import Prizes from '@/components/Prizes';
+
 import Sponsors from '@/components/Sponsors';
 import Organizers from '@/components/Organizers';
 import Navbar from "@/components/nav-bar";
@@ -9,7 +9,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#050505] text-white selection:bg-primary selection:text-black">
       <Navbar/>
       <HeroSection />
-      <Prizes />
+
       <Sponsors />
       <Organizers />
       
