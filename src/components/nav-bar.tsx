@@ -19,7 +19,6 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '#hero' },
-    { name: 'Prizes', href: '#prizes' },
     { name: 'Sponsors', href: '#sponsors' },
     { name: 'Organizers', href: '#organizers' },
   ];
@@ -38,7 +37,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center gap-2">
             <Terminal className="text-primary w-6 h-6" />
             <span className="font-ui font-bold text-xl tracking-tighter text-white">
-              CP_EVENT<span className="text-primary">_BINGO</span>
+              HEAT<span className="text-primary">CODE</span>
             </span>
           </div>
           
