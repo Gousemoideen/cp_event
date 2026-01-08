@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function Sponsors() {
   return (
@@ -24,9 +25,19 @@ export default function Sponsors() {
             whileHover={{ scale: 1.05 }}
             className="group relative"
           >
-            <div className="relative border border-white/10 rounded-xl p-12 flex flex-col items-center gap-6 transition-opacity duration-300 hover:opacity-50">
+            {/* Kept hover:opacity-80 for a slight interaction feel without changing color */}
+            <div className="relative border border-white/10 rounded-xl p-8 md:p-12 flex flex-col items-center gap-6 transition-opacity duration-300 hover:opacity-80 bg-white/5">
+              
+              <div className="relative w-64 h-24 md:w-80 md:h-32">
+                <Image
+                  src="/unstop-logo.jpg"
+                  alt="Unstop Sponsor"
+                  fill
+                  // Removed 'grayscale' and 'group-hover:grayscale-0'
+                  className="object-contain" 
+                />
+              </div>
 
-              <span className="text-5xl md:text-6xl font-black text-white tracking-widest">UNSTOP</span>
             </div>
           </motion.div>
         </div>
